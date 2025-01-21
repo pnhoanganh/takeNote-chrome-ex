@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-
-import './SidePanel.css'
+import SideBar from '../components/SideBar/SideBar'
+import NoteContainer from '../components/Note/NoteContainer'
 
 export const SidePanel = () => {
   return (
     <main>
-      <h3>SidePanel Page</h3>
+      <SideBar />
+      <NoteContainer />
     </main>
   )
 }
