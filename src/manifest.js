@@ -4,19 +4,20 @@ import packageData from '../package.json' assert { type: 'json' }
 const isDev = process.env.NODE_ENV == 'development'
 
 export default defineManifest({
-  name: `${packageData.displayName || packageData.name}${isDev ? ` ➡️ Dev` : ''}`,
+  name: `${packageData.displayName || packageData.name}`,
   description: packageData.description,
   version: packageData.version,
   manifest_version: 3,
   icons: {
-    16: 'img/logo-16.png',
-    32: 'img/logo-34.png',
-    48: 'img/logo-48.png',
-    128: 'img/logo-128.png',
+    16: 'img/16.png',
+    32: 'img/32.png',
+    96: 'img/96.png',
+    128: 'img/128.png',
+    196: 'img/196.png',
   },
   action: {
     default_popup: 'popup.html',
-    default_icon: 'img/logo-48.png',
+    default_icon: 'img/32.png',
   },
 
   background: {
@@ -34,7 +35,7 @@ export default defineManifest({
   },
   web_accessible_resources: [
     {
-      resources: ['img/logo-16.png', 'img/logo-34.png', 'img/logo-48.png', 'img/logo-128.png'],
+      resources: ['img/16.png', 'img/32.png', 'img/96.png', 'img/128.png', 'img/196.png'],
       matches: [],
     },
   ],
