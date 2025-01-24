@@ -1,11 +1,7 @@
 import React from 'react'
 
 function TakeNote() {
-  return (
-    <div>
-      <h3>TakeNote</h3>
-    </div>
-  )
+  return <h1>Take note</h1>
 }
 
 export default TakeNote

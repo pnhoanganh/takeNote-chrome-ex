@@ -6,7 +6,8 @@ export default {
     extend: {
       colors: {
         primary: '#202225',
-        secondary: '#fa89b5',
+        secondary: 'rgb(238,93,153)',
+        'light-secondary-10': '#f2acc9',
         'light-secondary-20': 'rgba(238, 93, 153, 0.2)',
         'light-secondary-40': 'rgba(238, 93, 153, 0.4)',
       },
