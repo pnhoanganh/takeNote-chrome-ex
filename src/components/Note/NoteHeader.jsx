@@ -1,5 +1,6 @@
 import React from 'react'
 import { GoPlus } from 'react-icons/go'
+
 function NoteHeader() {
   return (
     <header className="min-h-[2rem] items-center  w-full flex h-8 mb-0.5 border-b-[1px] border-light-secondary-40">

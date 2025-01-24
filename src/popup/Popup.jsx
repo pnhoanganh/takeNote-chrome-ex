@@ -4,11 +4,13 @@ import NoteContainer from '../components/Note/NoteContainer'
 
 export const Popup = () => {
   return (
-    <main className="flex min-h-screen h-[500px] w-[550px]">
-      <div className=" flex-grow">
+    <main className="flex flex-row max-h-screen min-h-[500px] min-w-[550px]">
+      {/* NoteContainer chiếm tỉ lệ linh hoạt */}
+      <div className="flex-grow">
         <NoteContainer />
       </div>
-      <div className="w-9">
+      {/* SideBar chiếm một tỉ lệ nhỏ, thay đổi theo kích thước màn hình */}
+      <div className="w-[3%] min-w-[34px] max-w-[50px]">
         <SideBar />
       </div>
     </main>
