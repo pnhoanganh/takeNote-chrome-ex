@@ -7,12 +7,11 @@ import logo from '../../assets/img/32.png'
 
 function SideBar() {
   const handleExpandWindow = () => {
-    // Mở URL trong tab mới
     window.open('/popup.html', '_blank')
   }
 
   return (
-    <nav className="items-center py-1 pt-3 min-w-[2rem] fixed top-0 right-0 h-screen w-9 sm:w-10 sm:min-w-[2.5rem] m-0 flex flex-col gap-1 text-primary shadow-lg overflow-visible border-l border-r rtl:border-l rtl:border-r-0">
+    <nav className="items-center py-1 pt-3 min-w-[2rem] fixed top-0 right-0 h-screen w-9 sm:w-10 sm:min-w-[2.5rem] lg:w-14 m-0 flex flex-col gap-1 text-primary shadow-lg overflow-visible border-l border-r rtl:border-l rtl:border-r-0">
       <img src={logo} alt="logo" className="w-5 h-5 mb-1" />
       <SideBarIcon icon={<MdOutlineCreateNewFolder size="18" />} text="Add note" />
       <SideBarIcon icon={<AiTwotoneFolderOpen size="18" />} text="Open your note archive" />

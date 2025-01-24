@@ -4,11 +4,12 @@ import NoteContainer from '../components/Note/NoteContainer'
 
 export const SidePanel = () => {
   return (
-    <main className="flex flex-row max-h-screen min-h-[400px] min-w-[350px]">
-      <div className="flex-grow">
+    <main className="flex flex-row max-h-screen min-w-[360px]">
+      <div className="flex-grow basis-0 w-[97%] overflow-hidden">
         <NoteContainer />
       </div>
-      <div className="w-[3%] min-w-[34px] max-w-[50px]">
+
+      <div className="flex-shrink-0 w-[4%] min-w-[34px] max-w-[60px]">
         <SideBar />
       </div>
     </main>
