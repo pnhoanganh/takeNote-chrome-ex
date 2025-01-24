@@ -10,6 +10,10 @@ function SideBar() {
     window.open('/popup.html', '_blank')
   }
 
+  const handleOptionPage = () => {
+    window.open('/option.html', '_blank')
+  }
+
   return (
     <nav className="items-center py-1 pt-3 min-w-[2rem] fixed top-0 right-0 h-screen w-9 sm:w-10 sm:min-w-[2.5rem] lg:w-14 m-0 flex flex-col gap-1 text-primary shadow-lg overflow-visible border-l border-r rtl:border-l rtl:border-r-0">
       <img src={logo} alt="logo" className="w-5 h-5 mb-1" />
@@ -20,7 +24,11 @@ function SideBar() {
         icon={<AiOutlineExpandAlt size="18" />}
         text="Expand the window"
       />
-      <SideBarIcon icon={<IoSettingsOutline size="18" />} text="Setting" />
+      <SideBarIcon
+        onClickEvent={handleOptionPage}
+        icon={<IoSettingsOutline size="18" />}
+        text="Setting"
+      />
     </nav>
   )
 }
