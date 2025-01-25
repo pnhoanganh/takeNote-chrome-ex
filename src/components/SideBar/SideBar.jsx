@@ -8,7 +8,7 @@ import { RiDeleteBin5Line } from 'react-icons/ri'
 import Modal from '../Modal/Modal'
 import logo from '../../assets/img/32.png'
 
-function SideBar({ notes, handleAddNote }) {
+function SideBar({ notes, handleAddNote, handleDeleteNote }) {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false)
 
   const handleExpandWindow = () => {
@@ -55,16 +55,19 @@ function SideBar({ notes, handleAddNote }) {
 
       {/* Modal for Note Archive */}
       <Modal open={isArchiveOpen} onClose={handleCloseNoteArchive}>
-        <div className="mt-2 text-center max-[450px]:min-w-[250px] max-[450px]:min-h-[300px] max-[560px]:min-w-[400px] max-[560px]:min-h-[350px]  min-[565px]:min-w-[500px] min-[565px]:min-h-[500px]">
-          <h3 className=" text-xl text-secondary font-semibold mb-4 flex justify-center items-center gap-2">
+        <div className="mt-2  max-[450px]:min-w-[250px] max-[450px]:min-h-[300px] max-[560px]:min-w-[400px] max-[560px]:min-h-[350px]  min-[565px]:min-w-[500px] min-[565px]:min-h-[500px]">
+          <h3 className=" text-xl text-center text-secondary font-semibold mb-4 flex justify-center items-center gap-2">
             <GoArchive size="30px" />
             Your Notes Archive
           </h3>
-          <div className="m-4">
+          <div className="mt-6">
             {notes && notes.length > 0 ? (
               notes.map((note) => (
-                <div key={note.id} className="app-note-archive flex justify-between items-center">
-                  <div className="note-list">
+                <div
+                  key={note.id}
+                  className="app-note-archive mt-3 flex justify-between items-center"
+                >
+                  <div className="note-list flex justify-start flex-col">
                     <div className="note-title">
                       <strong>{note.title}</strong>
                     </div>
@@ -77,13 +80,16 @@ function SideBar({ notes, handleAddNote }) {
                       })}
                     </small>
                   </div>
-                  <button onClick={() => handleDeleteNote(note.id)}>
+                  <button
+                    onClick={() => handleDeleteNote(note.id)}
+                    className="hover:bg-light-secondary-20 rounded-md p-1 transition-all duration-300 ease-linear"
+                  >
                     <RiDeleteBin5Line size="16px" />
                   </button>
                 </div>
               ))
             ) : (
-              <p className="no-note">No notes available</p>
+              <p className="no-note text-center">No notes available</p>
             )}
           </div>
         </div>

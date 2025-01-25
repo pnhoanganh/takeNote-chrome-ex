@@ -16,6 +16,10 @@ export const Popup = () => {
     })
   }
 
+  const handleDeleteNote = (idToDelete) => {
+    setNotes(notes.filter((note) => note.id !== idToDelete))
+  }
+
   return (
     <main className="flex flex-row max-h-screen min-h-[500px] min-w-[550px]">
       <div className="flex-grow basis-0 w-[97%] overflow-hidden">
@@ -23,7 +27,7 @@ export const Popup = () => {
       </div>
 
       <div className="flex-shrink-0 w-[4%] min-w-[34px] max-w-[60px]">
-        <SideBar notes={notes} handleAddNote={handleAddNote} />
+        <SideBar notes={notes} handleAddNote={handleAddNote} handleDeleteNote={handleDeleteNote} />
       </div>
     </main>
   )
