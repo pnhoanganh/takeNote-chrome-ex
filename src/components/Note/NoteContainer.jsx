@@ -1,7 +1,6 @@
 import React from 'react'
 import NoteHeader from './NoteHeader'
 import TakeNote from './TakeNote'
-import EmptyState from './EmptyState'
 
 function NoteContainer() {
   return (
@@ -10,10 +9,7 @@ function NoteContainer() {
         <NoteHeader />
       </div>
       <div className=" flex-grow border rounded-lg p-4">
-        <div className=" mt-20">
-          <EmptyState />
-        </div>
-        {/* <TakeNote /> */}
+        <TakeNote />
       </div>
     </div>
   )
