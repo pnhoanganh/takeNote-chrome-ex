@@ -1,11 +1,13 @@
 console.log('background is running')
 // background.js
 
+let notes = [] // Initialize the notes array
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'ADD_NOTE') {
     console.log('Add')
-    // Perform any logic you want in the background
-    // Example: Save a note or trigger something
-    sendResponse({ status: 'success', message: 'Note added successfully!' })
+    const newNote = message.payload
+    notes.push(newNote) // Add the note to the array
+    sendResponse({ status: 'success', message: 'Note added successfully!', notes }) // Send the updated notes back
   }
 })

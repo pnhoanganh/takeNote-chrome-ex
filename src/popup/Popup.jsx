@@ -5,14 +5,17 @@ import NoteContainer from '../components/Note/NoteContainer'
 export const Popup = () => {
   const [notes, setNotes] = useState([])
   const handleAddNote = () => {
-    chrome.runtime.sendMessage({ type: 'ADD_NOTE' }, (response) => {
+    const newNote = { id: Date.now(), title: 'Sample note', body: '', lastModified: '' }
+    chrome.runtime.sendMessage({ type: 'ADD_NOTE', payload: newNote }, (response) => {
       if (response?.status === 'success') {
         console.log(response.message) // Handle success message
+        setNotes(response.notes)
       } else {
         console.error('Failed to add note')
       }
     })
   }
+
   return (
     <main className="flex flex-row max-h-screen min-h-[500px] min-w-[550px]">
       <div className="flex-grow basis-0 w-[97%] overflow-hidden">

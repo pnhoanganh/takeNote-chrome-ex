@@ -4,6 +4,7 @@ import { MdOutlineCreateNewFolder } from 'react-icons/md'
 import { AiOutlineExpandAlt } from 'react-icons/ai'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { GoArchive } from 'react-icons/go'
+import { RiDeleteBin5Line } from 'react-icons/ri'
 import Modal from '../Modal/Modal'
 import logo from '../../assets/img/32.png'
 
@@ -59,13 +60,32 @@ function SideBar({ notes, handleAddNote }) {
             <GoArchive size="30px" />
             Your Notes Archive
           </h3>
-          <ul className="text-sm list-disc list-inside">
+          <div className="m-4">
             {notes && notes.length > 0 ? (
-              notes.map((note, index) => <li key={index}>{note}</li>)
+              notes.map((note) => (
+                <div key={note.id} className="app-note-archive flex justify-between items-center">
+                  <div className="note-list">
+                    <div className="note-title">
+                      <strong>{note.title}</strong>
+                    </div>
+                    <p>{note.body ? note.body.substr(0, 100) + '...' : ''}</p>
+                    <small className="note-meta">
+                      Last modified{' '}
+                      {new Date(note.lastModified).toLocaleDateString('en-GB', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </small>
+                  </div>
+                  <button onClick={() => handleDeleteNote(note.id)}>
+                    <RiDeleteBin5Line size="16px" />
+                  </button>
+                </div>
+              ))
             ) : (
-              <li className=" list-none">No notes available</li>
+              <p className="no-note">No notes available</p>
             )}
-          </ul>
+          </div>
         </div>
       </Modal>
     </>
