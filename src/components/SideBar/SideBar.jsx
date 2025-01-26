@@ -26,6 +26,19 @@ function SideBar({ notes, handleAddNote, handleDeleteNote }) {
   const handleCloseNoteArchive = () => {
     setIsArchiveOpen(false)
   }
+  const getTimeAgo = (dateString) => {
+    const now = new Date()
+    const past = new Date(dateString)
+    const diffInSeconds = Math.floor((now - past) / 1000)
+
+    if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`
+    const diffInMinutes = Math.floor(diffInSeconds / 60)
+    if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`
+    const diffInHours = Math.floor(diffInMinutes / 60)
+    if (diffInHours < 24) return `${diffInHours} hours ago`
+    const diffInDays = Math.floor(diffInHours / 24)
+    return `${diffInDays} days ago`
+  }
 
   return (
     <>
@@ -60,24 +73,31 @@ function SideBar({ notes, handleAddNote, handleDeleteNote }) {
             <GoArchive size="30px" />
             Your Notes Archive
           </h3>
+          <hr />
           <div className="mt-6">
             {notes && notes.length > 0 ? (
               notes.map((note) => (
                 <div
                   key={note.id}
-                  className="app-note-archive mt-3 flex justify-between items-center"
+                  className="mt-3 flex justify-between items-center cursor-pointer"
                 >
-                  <div className="note-list flex justify-start flex-col">
-                    <div className="note-title">
+                  <div className="flex justify-start flex-col">
+                    <div className=" text-secondary ">
                       <strong>{note.title}</strong>
                     </div>
                     <p>{note.body ? note.body.substr(0, 100) + '...' : ''}</p>
-                    <small className="note-meta">
+                    <small className="text-light-primary-50">
                       Last modified{' '}
-                      {new Date(note.lastModified).toLocaleDateString('en-GB', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
+                      {isNaN(new Date(note.lastModified).getTime())
+                        ? 'Date not available'
+                        : `${new Date(note.lastModified).toLocaleString('en-GB', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}, ${new Date(note.lastModified).toLocaleString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                          })} (${getTimeAgo(note.lastModified)})`}
                     </small>
                   </div>
                   <button
@@ -89,7 +109,7 @@ function SideBar({ notes, handleAddNote, handleDeleteNote }) {
                 </div>
               ))
             ) : (
-              <p className="no-note text-center">No notes available</p>
+              <p className=" text-xs text-center">No notes available</p>
             )}
           </div>
         </div>
