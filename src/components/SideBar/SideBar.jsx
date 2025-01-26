@@ -8,7 +8,7 @@ import { RiDeleteBin5Line } from 'react-icons/ri'
 import Modal from '../Modal/Modal'
 import logo from '../../assets/img/32.png'
 
-function SideBar({ notes, handleAddNote, handleDeleteNote }) {
+function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActiveNote }) {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false)
 
   const handleExpandWindow = () => {
@@ -26,6 +26,7 @@ function SideBar({ notes, handleAddNote, handleDeleteNote }) {
   const handleCloseNoteArchive = () => {
     setIsArchiveOpen(false)
   }
+
   const getTimeAgo = (dateString) => {
     const now = new Date()
     const past = new Date(dateString)
@@ -68,21 +69,22 @@ function SideBar({ notes, handleAddNote, handleDeleteNote }) {
 
       {/* Modal for Note Archive */}
       <Modal open={isArchiveOpen} onClose={handleCloseNoteArchive}>
-        <div className="mt-2  max-[450px]:min-w-[250px] max-[450px]:min-h-[300px] max-[560px]:min-w-[400px] max-[560px]:min-h-[350px]  min-[565px]:min-w-[500px] min-[565px]:min-h-[500px]">
-          <h3 className=" text-xl text-center text-secondary font-semibold mb-4 flex justify-center items-center gap-2">
+        <div className="mt-2 max-[450px]:min-w-[250px] max-[450px]:min-h-[300px] max-[560px]:min-w-[400px] max-[560px]:min-h-[350px] min-[565px]:min-w-[500px] min-[565px]:min-h-[500px] overflow-hidden">
+          <h3 className="text-xl text-center text-secondary font-semibold mb-4 flex justify-center items-center gap-2">
             <GoArchive size="30px" />
             Your Notes Archive
           </h3>
           <hr />
-          <div className="mt-6">
+          <div className="mt-6 max-[450px]:max-h-[300px] min-[460px]:max-h-[300px] min-[560px]:max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
             {notes && notes.length > 0 ? (
               notes.map((note) => (
                 <div
                   key={note.id}
-                  className="mt-3 flex justify-between items-center cursor-pointer"
+                  className="mt-3 p-2 rounded flex justify-between items-center cursor-pointer hover:bg-gray-100 transition-all duration-300 ease-linear"
+                  onClick={() => setActiveNote(note.id)}
                 >
                   <div className="flex justify-start flex-col">
-                    <div className=" text-secondary ">
+                    <div className="text-secondary">
                       <strong>{note.title}</strong>
                     </div>
                     <p>{note.body ? note.body.substr(0, 100) + '...' : ''}</p>
@@ -102,14 +104,14 @@ function SideBar({ notes, handleAddNote, handleDeleteNote }) {
                   </div>
                   <button
                     onClick={() => handleDeleteNote(note.id)}
-                    className="hover:bg-light-secondary-20 rounded-md p-1 transition-all duration-300 ease-linear"
+                    className="hover:text-secondary rounded-md p-1 transition-all duration-300 ease-linear"
                   >
                     <RiDeleteBin5Line size="16px" />
                   </button>
                 </div>
               ))
             ) : (
-              <p className=" text-xs text-center">No notes available</p>
+              <p className="text-xs text-center">No notes available</p>
             )}
           </div>
         </div>

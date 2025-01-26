@@ -4,6 +4,17 @@ import NoteContainer from '../components/Note/NoteContainer'
 
 export const Popup = () => {
   const [notes, setNotes] = useState([])
+  const [activeNote, setActiveNote] = useState(false)
+
+  useEffect(() => {
+    // Fetch notes when the component mounts
+    chrome.storage.local.get('notes', (data) => {
+      if (data.notes) {
+        setNotes(data.notes)
+      }
+    })
+  }, [])
+
   const handleAddNote = () => {
     const newNote = {
       id: Date.now(),
@@ -14,7 +25,6 @@ export const Popup = () => {
 
     chrome.runtime.sendMessage({ type: 'ADD_NOTE', payload: newNote }, (response) => {
       if (response?.status === 'success') {
-        console.log(response.message)
         setNotes(response.notes)
       } else {
         console.error('Failed to add note')
@@ -23,7 +33,13 @@ export const Popup = () => {
   }
 
   const handleDeleteNote = (idToDelete) => {
-    setNotes(notes.filter((note) => note.id !== idToDelete))
+    chrome.runtime.sendMessage({ type: 'DELETE_NOTE', payload: idToDelete }, (response) => {
+      if (response?.status === 'success') {
+        setNotes(response.notes)
+      } else {
+        console.error('Failed to delete note')
+      }
+    })
   }
 
   return (
@@ -33,7 +49,13 @@ export const Popup = () => {
       </div>
 
       <div className="flex-shrink-0 w-[4%] min-w-[34px] max-w-[60px]">
-        <SideBar notes={notes} handleAddNote={handleAddNote} handleDeleteNote={handleDeleteNote} />
+        <SideBar
+          notes={notes}
+          handleAddNote={handleAddNote}
+          handleDeleteNote={handleDeleteNote}
+          activeNote={activeNote}
+          setActiveNote={setActiveNote}
+        />
       </div>
     </main>
   )
