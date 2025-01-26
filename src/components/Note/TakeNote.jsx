@@ -20,7 +20,7 @@ export default function TakeNote() {
                 name="comment"
                 rows={5}
                 placeholder="Add your note..."
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-secondary sm:text-sm/6"
+                className="block max-[550px]:max-h-[550px] min-[550px]:max-h-[300px] min-[560px]:max-h-[550px] w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-secondary sm:text-sm/6 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200"
                 defaultValue={''}
               />
             </div>
