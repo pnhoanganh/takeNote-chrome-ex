@@ -42,6 +42,23 @@ export const Popup = () => {
     })
   }
 
+  const handleSetActiveNote = (noteId) => {
+    chrome.runtime.sendMessage({ type: 'SET_ACTIVE_NOTE', payload: noteId }, (response) => {
+      if (response?.status === 'success') {
+        setActiveNote(response.activeNote) // Cập nhật trạng thái local
+      }
+    })
+  }
+
+  // Fetch `activeNote` khi Popup được render
+  useEffect(() => {
+    chrome.runtime.sendMessage({ type: 'GET_ACTIVE_NOTE' }, (response) => {
+      if (response?.status === 'success') {
+        setActiveNote(response.activeNote)
+      }
+    })
+  }, [])
+
   return (
     <main className="flex flex-row max-h-screen min-h-[500px] min-w-[550px]">
       <div className="flex-grow basis-0 w-[97%] overflow-hidden">
@@ -54,7 +71,7 @@ export const Popup = () => {
           handleAddNote={handleAddNote}
           handleDeleteNote={handleDeleteNote}
           activeNote={activeNote}
-          setActiveNote={setActiveNote}
+          setActiveNote={handleSetActiveNote}
         />
       </div>
     </main>

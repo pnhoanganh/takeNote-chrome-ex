@@ -80,11 +80,13 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
               notes.map((note) => (
                 <div
                   key={note.id}
-                  className="mt-3 p-2 rounded flex justify-between items-center cursor-pointer hover:bg-gray-100 transition-all duration-300 ease-linear"
+                  className={`mt-3 p-2 rounded flex justify-between items-center cursor-pointer ${
+                    note.id === activeNote ? 'bg-light-secondary-20' : 'hover:bg-gray-100'
+                  }`}
                   onClick={() => setActiveNote(note.id)}
                 >
                   <div className="flex justify-start flex-col">
-                    <div className="text-secondary">
+                    <div className="text-secondary text-[16px]">
                       <strong>{note.title}</strong>
                     </div>
                     <p>{note.body ? note.body.substr(0, 100) + '...' : ''}</p>

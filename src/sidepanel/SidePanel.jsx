@@ -4,6 +4,7 @@ import NoteContainer from '../components/Note/NoteContainer'
 
 export const SidePanel = () => {
   const [notes, setNotes] = useState([])
+  const [activeNote, setActiveNote] = useState(false)
 
   // Fetch notes when the component mounts
   useEffect(() => {
@@ -41,6 +42,23 @@ export const SidePanel = () => {
     })
   }
 
+  const handleSetActiveNote = (noteId) => {
+    chrome.runtime.sendMessage({ type: 'SET_ACTIVE_NOTE', payload: noteId }, (response) => {
+      if (response?.status === 'success') {
+        setActiveNote(response.activeNote) // Cập nhật trạng thái local
+      }
+    })
+  }
+
+  // Fetch `activeNote` khi SidePanel được render
+  useEffect(() => {
+    chrome.runtime.sendMessage({ type: 'GET_ACTIVE_NOTE' }, (response) => {
+      if (response?.status === 'success') {
+        setActiveNote(response.activeNote)
+      }
+    })
+  }, [])
+
   return (
     <main className="flex flex-row max-h-screen min-w-[360px]">
       <div className="flex-grow basis-0 w-[97%] overflow-hidden">
@@ -48,7 +66,13 @@ export const SidePanel = () => {
       </div>
 
       <div className="flex-shrink-0 w-[4%] min-w-[34px] max-w-[60px]">
-        <SideBar notes={notes} handleAddNote={handleAddNote} handleDeleteNote={handleDeleteNote} />
+        <SideBar
+          notes={notes}
+          handleAddNote={handleAddNote}
+          handleDeleteNote={handleDeleteNote}
+          activeNote={activeNote}
+          setActiveNote={handleSetActiveNote}
+        />
       </div>
     </main>
   )

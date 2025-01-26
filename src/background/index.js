@@ -28,3 +28,18 @@ chrome.storage.local.get('notes', (data) => {
     notes = data.notes
   }
 })
+
+let activeNote = null
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'SET_ACTIVE_NOTE') {
+    activeNote = message.payload // Cập nhật activeNote
+    chrome.storage.local.set({ activeNote }) // Lưu vào storage
+    sendResponse({ status: 'success', activeNote })
+  } else if (message.type === 'GET_ACTIVE_NOTE') {
+    chrome.storage.local.get('activeNote', (data) => {
+      sendResponse({ status: 'success', activeNote: data.activeNote || null })
+    })
+    return true // Giữ kênh mở để gửi phản hồi
+  }
+})
