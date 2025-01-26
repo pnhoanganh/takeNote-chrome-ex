@@ -1,25 +1,22 @@
 import React from 'react'
-// import { GoPlus } from 'react-icons/go'
-import { TiDocumentAdd } from 'react-icons/ti'
-import { TiDocumentDelete } from 'react-icons/ti'
 
 function NoteHeader() {
   return (
-    <header className="min-h-[2rem] items-center  w-full flex h-8 mb-0.5 border-b-[1px] border-light-secondary-40">
-      <div className="flex flex-1 pl-2 mb-1 gap-2">
-        <div className=" pt-1 min-w-16 h-7 flex justify-center items-center hover:bg-light-secondary-20 rounded-md transition-all duration-300 ease-linear">
-          {/* <GoPlus size="18px" /> */}
-          <button className="flex flex-row gap-1">
-            <TiDocumentAdd size="18px" /> Save
-          </button>
-        </div>
-        <div className=" pt-1 min-w-16 h-7 flex justify-center items-center hover:bg-light-secondary-20 rounded-md transition-all duration-300 ease-linear">
-          {/* <GoPlus size="18px" /> */}
-
-          <button className="flex flex-row gap-1">
-            <TiDocumentDelete size="18px" /> Delete
-          </button>
-        </div>
+    <header className="min-h-[2rem] items-center  w-full flex pb-3 border-b-[1px] border-light-secondary-40">
+      <div className="relative w-full">
+        <label
+          htmlFor="name"
+          className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-900"
+        >
+          Note Title
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Enter title of your note..."
+          className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-secondary sm:text-sm/6"
+        />
       </div>
     </header>
   )

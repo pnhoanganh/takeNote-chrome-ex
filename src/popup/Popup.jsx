@@ -59,10 +59,16 @@ export const Popup = () => {
     })
   }, [])
 
+  const getActiveNote = () => {
+    return notes.find((note) => {
+      note.id === activeNote
+    })
+  }
+
   return (
     <main className="flex flex-row max-h-screen min-h-[500px] min-w-[550px]">
       <div className="flex-grow basis-0 w-[97%] overflow-hidden">
-        <NoteContainer />
+        <NoteContainer activeNote={getActiveNote()} />
       </div>
 
       <div className="flex-shrink-0 w-[4%] min-w-[34px] max-w-[60px]">
