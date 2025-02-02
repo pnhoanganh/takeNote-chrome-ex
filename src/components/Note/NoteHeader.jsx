@@ -6,7 +6,7 @@ function NoteHeader({ activeNote, onEditField }) {
       <div className="relative w-full">
         <label
           htmlFor="name"
-          className="absolute -top-4 left-2 inline-block rounded-lg bg-white px-1 text-[16px] font-medium text-light-primary-50"
+          className="absolute -top-4 left-2 inline-block rounded-lg bg-white px-1 text-[16px] font-medium text-secondary"
         >
           Note Title
         </label>

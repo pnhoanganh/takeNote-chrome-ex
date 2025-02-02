@@ -87,7 +87,12 @@ export const Popup = () => {
   return (
     <main className="flex flex-row max-h-screen min-h-[500px] min-w-[550px]">
       <div className="flex-grow basis-0 w-[97%] overflow-hidden">
-        <NoteContainer notes={notes} activeNote={getActiveNote()} onUpdateNote={onUpdateNote} />
+        <NoteContainer
+          notes={notes}
+          activeNote={getActiveNote()}
+          onUpdateNote={onUpdateNote}
+          handleAddNote={handleAddNote}
+        />
       </div>
 
       <div className="flex-shrink-0 w-[4%] min-w-[34px] max-w-[60px]">

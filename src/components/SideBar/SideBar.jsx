@@ -88,7 +88,7 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
                   className={`mt-3 p-2 rounded flex justify-between items-center cursor-pointer ${
                     note.id === activeNote ? 'bg-light-secondary-20' : 'hover:bg-gray-100'
                   }`}
-                  onClick={() => handleSetActiveNote(note.id)} // Set active note and close modal
+                  onClick={(e) => handleSetActiveNote(note.id)} // Set active note and close modal
                 >
                   <div className="flex justify-start flex-col">
                     <div className="text-secondary text-[16px]">

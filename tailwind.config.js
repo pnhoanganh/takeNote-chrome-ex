@@ -11,6 +11,7 @@ export default {
         secondary: 'rgb(238,93,153)',
         'light-secondary-10': '#f2acc9',
         'light-secondary-20': 'rgba(238, 93, 153, 0.2)',
+        'light-secondary-30': '#f2acc9',
         'light-secondary-40': 'rgba(238, 93, 153, 0.4)',
       },
       boxShadow: {

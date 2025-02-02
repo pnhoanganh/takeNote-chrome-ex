@@ -1,8 +1,9 @@
 import React from 'react'
 import NoteHeader from './NoteHeader'
 import TakeNote from './TakeNote'
+import EmptyState from './EmptyState'
 
-function NoteContainer({ activeNote, onUpdateNote }) {
+function NoteContainer({ activeNote, onUpdateNote, handleAddNote }) {
   const onEditField = (key, value) => {
     onUpdateNote({
       ...activeNote,
@@ -13,8 +14,8 @@ function NoteContainer({ activeNote, onUpdateNote }) {
 
   if (!activeNote) {
     return (
-      <div className="no-active-note pt-[20%] text-center text-xl text-light-primary-10 font-medium">
-        No note selected
+      <div className="pt-[80px]">
+        <EmptyState handleAddNote={handleAddNote} />
       </div>
     )
   }
