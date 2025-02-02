@@ -6,26 +6,32 @@ export const SidePanel = () => {
   const [notes, setNotes] = useState([])
   const [activeNote, setActiveNote] = useState(false)
 
-  // Fetch notes when the component mounts
+  // Fetch notes and active note on component mount
   useEffect(() => {
-    chrome.storage.local.get('notes', (data) => {
+    chrome.storage.local.get(['notes', 'activeNote'], (data) => {
       if (data.notes) {
         setNotes(data.notes)
+      }
+      if (data.activeNote) {
+        setActiveNote(data.activeNote)
       }
     })
   }, [])
 
+  // ADD NOTE
   const handleAddNote = () => {
     const newNote = {
       id: Date.now(),
-      title: 'Sample note',
+      title: 'Untitled Note',
       body: '',
       lastModified: new Date().toISOString(),
     }
 
     chrome.runtime.sendMessage({ type: 'ADD_NOTE', payload: newNote }, (response) => {
       if (response?.status === 'success') {
-        setNotes(response.notes)
+        // Update state immediately without waiting for side panel to be opened
+        setNotes(response.notes) // This updates the notes list
+        setActiveNote(newNote.id) // Optionally set the new note as active
       } else {
         console.error('Failed to add note')
       }
@@ -35,7 +41,7 @@ export const SidePanel = () => {
   const handleDeleteNote = (idToDelete) => {
     chrome.runtime.sendMessage({ type: 'DELETE_NOTE', payload: idToDelete }, (response) => {
       if (response?.status === 'success') {
-        setNotes(response.notes)
+        setNotes(response.notes) // Update local state after deleting the note
       } else {
         console.error('Failed to delete note')
       }
@@ -45,12 +51,12 @@ export const SidePanel = () => {
   const handleSetActiveNote = (noteId) => {
     chrome.runtime.sendMessage({ type: 'SET_ACTIVE_NOTE', payload: noteId }, (response) => {
       if (response?.status === 'success') {
-        setActiveNote(response.activeNote) // Cập nhật trạng thái local
+        setActiveNote(response.activeNote) // Update active note state
       }
     })
   }
 
-  // Fetch `activeNote` khi SidePanel được render
+  // Fetch activeNote when SidePanel is rendered
   useEffect(() => {
     chrome.runtime.sendMessage({ type: 'GET_ACTIVE_NOTE' }, (response) => {
       if (response?.status === 'success') {
@@ -59,10 +65,22 @@ export const SidePanel = () => {
     })
   }, [])
 
+  const getActiveNote = () => notes.find((note) => note.id === activeNote)
+
+  const onUpdateNote = (updatedNote) => {
+    chrome.runtime.sendMessage({ type: 'UPDATE_NOTE', payload: updatedNote }, (response) => {
+      if (response?.status === 'success') {
+        setNotes(response.notes) // Update notes state after update
+      } else {
+        console.error('Failed to update note')
+      }
+    })
+  }
+
   return (
     <main className="flex flex-row max-h-screen min-w-[360px]">
       <div className="flex-grow basis-0 w-[97%] overflow-hidden">
-        <NoteContainer />
+        <NoteContainer notes={notes} activeNote={getActiveNote()} onUpdateNote={onUpdateNote} />
       </div>
 
       <div className="flex-shrink-0 w-[4%] min-w-[34px] max-w-[60px]">

@@ -27,6 +27,11 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
     setIsArchiveOpen(false)
   }
 
+  const handleSetActiveNote = (noteId) => {
+    setActiveNote(noteId) // Set active note
+    handleCloseNoteArchive() // Close the modal automatically after selecting the note
+  }
+
   const getTimeAgo = (dateString) => {
     const now = new Date()
     const past = new Date(dateString)
@@ -83,13 +88,21 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
                   className={`mt-3 p-2 rounded flex justify-between items-center cursor-pointer ${
                     note.id === activeNote ? 'bg-light-secondary-20' : 'hover:bg-gray-100'
                   }`}
-                  onClick={() => setActiveNote(note.id)}
+                  onClick={() => handleSetActiveNote(note.id)} // Set active note and close modal
                 >
                   <div className="flex justify-start flex-col">
                     <div className="text-secondary text-[16px]">
-                      <strong>{note.title}</strong>
+                      <strong>
+                        {note.title && note.title.length > 30
+                          ? note.title.substr(0, 30) + '...'
+                          : note.title || 'Untitled note'}
+                      </strong>
                     </div>
-                    <p>{note.body ? note.body.substr(0, 100) + '...' : ''}</p>
+                    <p>
+                      {note.body && note.body.length > 40
+                        ? note.body.substr(0, 40) + '...'
+                        : note.body || ''}
+                    </p>
                     <small className="text-light-primary-50">
                       Last modified{' '}
                       {isNaN(new Date(note.lastModified).getTime())
@@ -105,7 +118,7 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
                     </small>
                   </div>
                   <button
-                    onClick={() => handleDeleteNote(note.id)}
+                    onClick={(e) => handleDeleteNote(e, note.id)}
                     className="hover:text-secondary rounded-md p-1 transition-all duration-300 ease-linear"
                   >
                     <RiDeleteBin5Line size="16px" />

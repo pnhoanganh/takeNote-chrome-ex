@@ -1,8 +1,8 @@
 import React from 'react'
 
-function NoteHeader() {
+function NoteHeader({ activeNote, onEditField }) {
   return (
-    <header className="min-h-[2rem] items-center  w-full flex pb-4 border-b-[1px] border-light-secondary-40">
+    <header className="min-h-[2rem] items-center w-full flex pb-4 border-b-[1px] border-light-secondary-40">
       <div className="relative w-full">
         <label
           htmlFor="name"
@@ -11,10 +11,12 @@ function NoteHeader() {
           Note Title
         </label>
         <input
-          id="name"
-          name="name"
+          id="title"
           type="text"
           placeholder="Enter title of your note..."
+          value={activeNote?.title || ''}
+          autoFocus
+          onChange={(e) => onEditField('title', e.target.value)}
           className="block w-full rounded-md bg-white px-3 py-2.5 text-lg text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 placeholder:text-[16px] focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-secondary "
         />
       </div>
