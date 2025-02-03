@@ -54,21 +54,25 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
           icon={<MdOutlineCreateNewFolder size="18" />}
           text="Add note"
           onClickEvent={handleAddNote}
+          className="left-[-100px]"
         />
         <SideBarIcon
           icon={<AiTwotoneFolderOpen size="18" />}
           text="Open your note archive"
           onClickEvent={handleOpenNoteArchive}
+          className="left-[-180px]"
         />
         <SideBarIcon
           onClickEvent={handleExpandWindow}
           icon={<AiOutlineExpandAlt size="18" />}
           text="Expand the window"
+          className="left-[-160px]"
         />
         <SideBarIcon
           onClickEvent={handleOptionPage}
           icon={<IoSettingsOutline size="18" />}
           text="Setting"
+          className="left-[-90px]"
         />
       </nav>
 
@@ -135,7 +139,7 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
   )
 }
 
-const SideBarIcon = ({ icon, text, onClickEvent = () => {} }) => (
+const SideBarIcon = ({ icon, text, onClickEvent = () => {}, className = '' }) => (
   <div className="relative group mt-1 h-6 w-6 cursor-pointer">
     <button
       onClick={(e) => {
@@ -146,7 +150,10 @@ const SideBarIcon = ({ icon, text, onClickEvent = () => {} }) => (
     >
       {icon}
     </button>
-    <div className="w-auto px-2 py-1 min-w-max rounded-md shadow-md text-xs transition-all duration-300 scale-0 origin-left absolute left-14 bg-primary text-white z-10 group-hover:scale-100">
+    {/* Tooltip */}
+    <div
+      className={`absolute top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded-md shadow-md text-xs transition-all duration-200 bg-primary text-white opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 z-50 whitespace-nowrap ${className}`}
+    >
       {text}
     </div>
   </div>

@@ -14,7 +14,7 @@ function NoteContainer({ activeNote, onUpdateNote, handleAddNote }) {
 
   if (!activeNote) {
     return (
-      <div className="pt-[80px]">
+      <div className="flex h-screen w-full items-center justify-center">
         <EmptyState handleAddNote={handleAddNote} />
       </div>
     )
