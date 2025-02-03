@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ReactMarkDown from 'react-markdown'
 import { AiTwotoneFolderOpen } from 'react-icons/ai'
 import { MdOutlineCreateNewFolder } from 'react-icons/md'
 import { AiOutlineExpandAlt } from 'react-icons/ai'
@@ -54,25 +55,25 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
           icon={<MdOutlineCreateNewFolder size="18" />}
           text="Add note"
           onClickEvent={handleAddNote}
-          className="left-[-100px]"
+          className="left-[-95px]"
         />
         <SideBarIcon
           icon={<AiTwotoneFolderOpen size="18" />}
           text="Open your note archive"
           onClickEvent={handleOpenNoteArchive}
-          className="left-[-180px]"
+          className="left-[-175px]"
         />
         <SideBarIcon
           onClickEvent={handleExpandWindow}
           icon={<AiOutlineExpandAlt size="18" />}
           text="Expand the window"
-          className="left-[-160px]"
+          className="left-[-155px]"
         />
         <SideBarIcon
           onClickEvent={handleOptionPage}
           icon={<IoSettingsOutline size="18" />}
           text="Setting"
-          className="left-[-90px]"
+          className="left-[-85px]"
         />
       </nav>
 
@@ -102,11 +103,11 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
                           : note.title || 'Untitled note'}
                       </strong>
                     </div>
-                    <p>
+                    <ReactMarkDown>
                       {note.body && note.body.length > 40
                         ? note.body.substr(0, 40) + '...'
                         : note.body || ''}
-                    </p>
+                    </ReactMarkDown>
                     <small className="text-light-primary-50">
                       Last modified{' '}
                       {isNaN(new Date(note.lastModified).getTime())

@@ -1,4 +1,5 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
+import ReactMarkDown from 'react-markdown'
 
 export default function TakeNote({ activeNote, onEditField }) {
   return (
@@ -28,10 +29,7 @@ export default function TakeNote({ activeNote, onEditField }) {
           <TabPanel className="main-note-preview -m-0.5 rounded-lg p-0.5">
             <div className="border-b">
               <div className="mx-px mt-px px-3 pb-12 pt-2 text-sm text-gray-800">
-                {/* <h1 className="preview-title text-secondary text-[20px] font-semibold">
-                  {activeNote?.title || 'Untitled'}
-                </h1> */}
-                <div className="markdown-preview">{activeNote?.body}</div>
+                <ReactMarkDown className="markdown-preview">{activeNote?.body}</ReactMarkDown>
               </div>
             </div>
           </TabPanel>

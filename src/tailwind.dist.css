@@ -582,12 +582,24 @@ video {
   top: -1rem;
 }
 
-.left-14 {
-  left: 3.5rem;
-}
-
 .left-2 {
   left: 0.5rem;
+}
+
+.left-\[-155px\] {
+  left: -155px;
+}
+
+.left-\[-175px\] {
+  left: -175px;
+}
+
+.left-\[-85px\] {
+  left: -85px;
+}
+
+.left-\[-95px\] {
+  left: -95px;
 }
 
 .right-0 {
@@ -602,64 +614,12 @@ video {
   top: 0px;
 }
 
-.top-2 {
-  top: 0.5rem;
-}
-
-.left-full {
-  left: 100%;
-}
-
 .top-1\/2 {
   top: 50%;
 }
 
-.left-\[-100px\] {
-  left: -100px;
-}
-
-.left-1\/4 {
-  left: 25%;
-}
-
-.left-\[-1\/4\] {
-  left: -1/4;
-}
-
-.left-\[-100\%\] {
-  left: -100%;
-}
-
-.left-\[-150px\] {
-  left: -150px;
-}
-
-.left-\[-200px\] {
-  left: -200px;
-}
-
-.left-\[-80px\] {
-  left: -80px;
-}
-
-.left-\[-180px\] {
-  left: -180px;
-}
-
-.left-\[-190px\] {
-  left: -190px;
-}
-
-.left-\[-160px\] {
-  left: -160px;
-}
-
-.left-\[-90px\] {
-  left: -90px;
-}
-
-.z-10 {
-  z-index: 10;
+.top-2 {
+  top: 0.5rem;
 }
 
 .z-50 {
@@ -801,10 +761,6 @@ video {
   width: 97%;
 }
 
-.w-auto {
-  width: auto;
-}
-
 .w-full {
   width: 100%;
 }
@@ -829,11 +785,6 @@ video {
   min-width: 550px;
 }
 
-.min-w-max {
-  min-width: -moz-max-content;
-  min-width: max-content;
-}
-
 .max-w-\[60px\] {
   max-width: 60px;
 }
@@ -854,23 +805,8 @@ video {
   flex-basis: 0px;
 }
 
-.origin-left {
-  transform-origin: left;
-}
-
 .-translate-y-1\/2 {
   --tw-translate-y: -50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.translate-x-\[-100px\] {
-  --tw-translate-x: -100px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-0 {
-  --tw-scale-x: 0;
-  --tw-scale-y: 0;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1086,10 +1022,6 @@ video {
   padding-top: 2.25rem;
 }
 
-.pt-\[80px\] {
-  padding-top: 80px;
-}
-
 .text-center {
   text-align: center;
 }
@@ -1260,12 +1192,12 @@ video {
   transition-duration: 150ms;
 }
 
-.duration-300 {
-  transition-duration: 300ms;
-}
-
 .duration-200 {
   transition-duration: 200ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
 }
 
 .ease-linear {
