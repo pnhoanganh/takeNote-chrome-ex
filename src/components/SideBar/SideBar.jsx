@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactMarkDown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { AiTwotoneFolderOpen } from 'react-icons/ai'
 import { MdOutlineCreateNewFolder } from 'react-icons/md'
 import { AiOutlineExpandAlt } from 'react-icons/ai'
@@ -90,7 +91,7 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
               notes.map((note) => (
                 <div
                   key={note.id}
-                  className={`mt-3 p-2 rounded flex justify-between items-center cursor-pointer ${
+                  className={`mt-3 p-2 rounded flex justify-between items-center cursor-pointer max-h-[150px] ${
                     note.id === activeNote ? 'bg-light-secondary-20' : 'hover:bg-gray-100'
                   }`}
                   onClick={(e) => handleSetActiveNote(note.id)} // Set active note and close modal
@@ -103,7 +104,7 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
                           : note.title || 'Untitled note'}
                       </strong>
                     </div>
-                    <ReactMarkDown>
+                    <ReactMarkDown remarkPlugins={[remarkGfm]}>
                       {note.body && note.body.length > 40
                         ? note.body.substr(0, 40) + '...'
                         : note.body || ''}

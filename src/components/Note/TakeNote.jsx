@@ -1,7 +1,15 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
+import { useRef } from 'react'
 import ReactMarkDown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export default function TakeNote({ activeNote, onEditField }) {
+  const textareaRef = useRef(null)
+
+  const handleChange = (e) => {
+    onEditField('body', e.target.value) // Chỉ cập nhật nội dung mà không đụng đến con trỏ
+  }
+
   return (
     <form action="#">
       <TabGroup>
@@ -17,19 +25,22 @@ export default function TakeNote({ activeNote, onEditField }) {
           <TabPanel className="main-note-edit -m-0.5 rounded-lg p-0.5">
             <div>
               <textarea
+                ref={textareaRef}
                 id="body"
                 rows={5}
                 placeholder="Write your note here..."
                 value={activeNote?.body || ''}
-                onChange={(e) => onEditField('body', e.target.value)}
-                className="block max-[550px]:max-h-[550px] min-[550px]:max-h-[300px] min-[560px]:max-h-[550px] w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-secondary sm:text-sm/6 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200"
+                onChange={handleChange}
+                className="min-[360px]:max-h-[550px] max-[550px]:max-h-[300px] min-[555px]:max-h-[580px] block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-secondary overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200"
               />
             </div>
           </TabPanel>
           <TabPanel className="main-note-preview -m-0.5 rounded-lg p-0.5">
             <div className="border-b">
               <div className="mx-px mt-px px-3 pb-12 pt-2 text-sm text-gray-800">
-                <ReactMarkDown className="markdown-preview">{activeNote?.body}</ReactMarkDown>
+                <ReactMarkDown className="markdown-preview" remarkPlugins={[remarkGfm]}>
+                  {activeNote?.body}
+                </ReactMarkDown>
               </div>
             </div>
           </TabPanel>
