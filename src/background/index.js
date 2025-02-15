@@ -9,35 +9,49 @@ chrome.storage.local.get(['notes', 'activeNote'], (data) => {
 
 // Listen for messages from popup/sidepanel
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  let isAsync = false
+
   if (message.type === 'ADD_NOTE') {
-    // Add new note to the notes array
     notes.push(message.payload)
+    isAsync = true
     chrome.storage.local.set({ notes }, () => {
       sendResponse({ status: 'success', message: 'Note added', notes })
     })
   } else if (message.type === 'DELETE_NOTE') {
-    // Delete note by id
-    notes = notes.filter((note) => note.id !== message.payload)
-    chrome.storage.local.set({ notes }, () => {
-      sendResponse({ status: 'success', message: 'Note deleted', notes })
+    const deletedNoteId = message.payload
+    notes = notes.filter((note) => note.id !== deletedNoteId)
+
+    // Update activeNote if deleted
+    if (activeNote === deletedNoteId) {
+      activeNote = notes.length > 0 ? notes[0].id : null
+    }
+
+    isAsync = true
+    chrome.storage.local.set({ notes, activeNote }, () => {
+      sendResponse({ status: 'success', message: 'Note deleted', notes, activeNote })
     })
   } else if (message.type === 'SET_ACTIVE_NOTE') {
-    // Set the active note
     activeNote = message.payload
+    isAsync = true
     chrome.storage.local.set({ activeNote }, () => {
       sendResponse({ status: 'success', activeNote })
     })
   } else if (message.type === 'GET_ACTIVE_NOTE') {
-    // Get the active note
     sendResponse({ status: 'success', activeNote })
   } else if (message.type === 'UPDATE_NOTE') {
-    // Update an existing note
     const updatedNote = message.payload
     notes = notes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
-    chrome.storage.local.set({ notes }, () => {
-      sendResponse({ status: 'success', message: 'Note updated', notes })
+
+    // Ensure activeNote is still valid
+    if (activeNote === updatedNote.id) {
+      activeNote = updatedNote.id
+    }
+
+    isAsync = true
+    chrome.storage.local.set({ notes, activeNote }, () => {
+      sendResponse({ status: 'success', message: 'Note updated', notes, activeNote })
     })
   }
 
-  return true // Keep the channel open for async response
+  return isAsync
 })

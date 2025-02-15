@@ -1,6 +1,6 @@
 import './styles.css'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -9,6 +9,9 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import Color from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import ListItem from '@tiptap/extension-list-item'
+import HardBreak from '@tiptap/extension-hard-break'
+import Gapcursor from '@tiptap/extension-gapcursor'
+import Placeholder from '@tiptap/extension-placeholder'
 import { RiCodeBlock } from 'react-icons/ri'
 import {
   FaBold,
@@ -27,70 +30,71 @@ import {
 const MenuBar = ({ editor }) => {
   if (!editor) return null
 
+  const handleClick = (command, options = {}) => {
+    if (editor.can().chain().focus()[command](options).run()) {
+      editor.chain().focus()[command](options).run()
+    }
+  }
+
   return (
     <div className="control-group">
       <div>
         <button
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          disabled={!editor.can().chain().focus().toggleBold().run()}
+          onClick={() => handleClick('toggleBold')}
           className={editor.isActive('bold') ? 'is-active' : ''}
         >
           <FaBold />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          disabled={!editor.can().chain().focus().toggleItalic().run()}
+          onClick={() => handleClick('toggleItalic')}
           className={editor.isActive('italic') ? 'is-active' : ''}
         >
           <FaItalic />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          disabled={!editor.can().chain().focus().toggleUnderline().run()}
+          onClick={() => handleClick('toggleUnderline')}
           className={editor.isActive('underline') ? 'is-active' : ''}
         >
           <FaUnderline />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          disabled={!editor.can().chain().focus().toggleStrike().run()}
+          onClick={() => handleClick('toggleStrike')}
           className={editor.isActive('strike') ? 'is-active' : ''}
         >
           <FaStrikethrough />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          disabled={!editor.can().chain().focus().toggleCode().run()}
+          onClick={() => handleClick('toggleCode')}
           className={editor.isActive('code') ? 'is-active' : ''}
         >
           <FaCode />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          onClick={() => handleClick('toggleHeading', { level: 1 })}
           className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
         >
           <FaHeading />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          onClick={() => handleClick('toggleBulletList')}
           className={editor.isActive('bulletList') ? 'is-active' : ''}
         >
           <FaListUl />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          onClick={() => handleClick('toggleOrderedList')}
           className={editor.isActive('orderedList') ? 'is-active' : ''}
         >
           <FaListOl />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          onClick={() => handleClick('toggleCodeBlock')}
           className={editor.isActive('codeBlock') ? 'is-active' : ''}
         >
           <RiCodeBlock />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          onClick={() => handleClick('toggleBlockquote')}
           className={editor.isActive('blockquote') ? 'is-active' : ''}
         >
           <FaQuoteLeft />
@@ -98,13 +102,13 @@ const MenuBar = ({ editor }) => {
       </div>
       <div className="flex flex-row gap-2">
         <button
-          onClick={() => editor.chain().focus().undo().run()}
+          onClick={() => handleClick('undo')}
           disabled={!editor.can().chain().focus().undo().run()}
         >
           <FaUndo />
         </button>
         <button
-          onClick={() => editor.chain().focus().redo().run()}
+          onClick={() => handleClick('redo')}
           disabled={!editor.can().chain().focus().redo().run()}
         >
           <FaRedo />
@@ -115,12 +119,18 @@ const MenuBar = ({ editor }) => {
 }
 
 const extensions = [
-  StarterKit,
+  StarterKit.configure({
+    hardBreak: false,
+  }),
   Underline,
   BulletList,
   OrderedList,
+  ListItem,
+  Gapcursor,
+  HardBreak.extend({ keepMarks: true, keepAttributes: true }),
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({ types: [ListItem.name] }),
+  Placeholder.configure({ placeholder: 'Write something...' }),
 ]
 
 const TipTap = ({ activeNote, onEditField }) => {
@@ -128,13 +138,15 @@ const TipTap = ({ activeNote, onEditField }) => {
     extensions,
     content: activeNote?.body || '',
     onUpdate: ({ editor }) => {
-      onEditField('body', editor.getHTML())
+      let html = editor.getHTML()
+      html = html.replace(/ /g, '\u00a0')
+      onEditField('body', html)
     },
   })
 
   useEffect(() => {
     if (editor && activeNote) {
-      editor.commands.setContent(activeNote.body || '', false)
+      if (editor?.isEmpty) editor.commands.setContent(activeNote.body || '')
     }
   }, [activeNote, editor])
 

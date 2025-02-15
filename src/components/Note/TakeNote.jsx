@@ -5,10 +5,10 @@ import parser from 'html-react-parser'
 import './Tiptap/styles.css'
 
 export default function TakeNote({ activeNote, onEditField }) {
-  const [description, setDescription] = useState(activeNote?.body || '')
+  const [description, setDescription] = useState(activeNote?.body || '<p><br></p>')
 
   useEffect(() => {
-    setDescription(activeNote?.body || '')
+    setDescription(activeNote?.body || '<p><br></p>')
   }, [activeNote])
 
   return (
@@ -19,16 +19,24 @@ export default function TakeNote({ activeNote, onEditField }) {
             Write
           </Tab>
           <Tab
-            onClick={() => setDescription(activeNote?.body || '')}
+            onClick={() => setDescription(activeNote?.body || '<p><br></p>')}
             className="ml-2 rounded-md bg-white px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 data-[selected]:bg-light-secondary-20 data-[selected]:text-gray-900"
           >
             Preview
           </Tab>
         </TabList>
         <TabPanels className="mt-2">
+          {/* Tab Write */}
           <TabPanel className="main-note-edit -m-0.5 rounded-lg p-0.5">
-            <TipTap activeNote={activeNote} onEditField={onEditField} />
+            <TipTap
+              activeNote={activeNote}
+              onEditField={(field, value) => {
+                onEditField(field, value)
+                setDescription(value)
+              }}
+            />
           </TabPanel>
+          {/* Tab Preview */}
           <TabPanel className="main-note-preview -m-0.5 rounded-lg p-0.5">
             <div className="border-b">
               <div className="ProseMirror mx-px mt-px px-3 pb-12 pt-2 text-sm text-gray-800">
