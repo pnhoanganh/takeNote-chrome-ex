@@ -5,11 +5,13 @@ import EmptyState from './EmptyState'
 
 function NoteContainer({ activeNote, onUpdateNote, handleAddNote }) {
   const onEditField = (key, value) => {
-    onUpdateNote({
-      ...activeNote,
-      [key]: value,
-      lastModified: Date.now(),
-    })
+    if (activeNote) {
+      onUpdateNote({
+        ...activeNote,
+        [key]: value,
+        lastModified: Date.now(),
+      })
+    }
   }
 
   if (!activeNote) {

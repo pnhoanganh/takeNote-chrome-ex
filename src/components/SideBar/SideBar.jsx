@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import ReactMarkDown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { AiTwotoneFolderOpen } from 'react-icons/ai'
 import { MdOutlineCreateNewFolder } from 'react-icons/md'
 import { AiOutlineExpandAlt } from 'react-icons/ai'
@@ -104,11 +102,11 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
                           : note.title || 'Untitled note'}
                       </strong>
                     </div>
-                    <ReactMarkDown remarkPlugins={[remarkGfm]}>
+                    <p>
                       {note.body && note.body.length > 40
                         ? note.body.substr(0, 40) + '...'
                         : note.body || ''}
-                    </ReactMarkDown>
+                    </p>
                     <small className="text-light-primary-50">
                       Last modified{' '}
                       {isNaN(new Date(note.lastModified).getTime())

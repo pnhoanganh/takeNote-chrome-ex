@@ -1,0 +1,152 @@
+/* TitTap Editor Design */
+.ProseMirror {
+  display: block;
+  width: 100%;
+  min-height: 100px;
+  background-color: #ffffff;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  color: #1f2937;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #e5e7eb;
+  max-height: 100%;
+}
+
+@media (max-width: 550px) {
+  .ProseMirror {
+    max-height: 250px;
+  }
+}
+
+@media (min-width: 555px) {
+  .ProseMirror {
+    min-height: 300px;
+    max-height: 580px;
+  }
+}
+
+.ProseMirror::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ProseMirror::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 10px;
+}
+
+.ProseMirror::-webkit-scrollbar-track {
+  background-color: #e5e7eb;
+}
+
+.ProseMirror ul {
+  padding: 0 2rem;
+  list-style-type: disc;
+}
+
+.ProseMirror ol {
+  padding: 0 2rem;
+  list-style-type: decimal;
+}
+
+.ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+/* Code inline */
+.ProseMirror code {
+  background-color: rgb(237, 233, 233);
+  border-radius: 2px;
+  color: rgb(249, 60, 60);
+  font-size: 0.85rem;
+  padding: 3px;
+}
+
+/* Code block */
+.ProseMirror pre {
+  background-color: #1e1e1e !important; /* Dark theme */
+  border-radius: 0.5rem;
+  color: #ffffff;
+  font-family: 'JetBrainsMono', monospace;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+/* Code block text */
+.ProseMirror pre code {
+  background: none;
+  color: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+}
+
+.ProseMirror blockquote {
+  padding-left: 1rem;
+  border-left: 3px solid #999999;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 3px solid #999999;
+  margin: 2rem 0;
+}
+
+.ProseMirror pre {
+  color: #fff;
+  font-size: 0.8rem;
+  background: none;
+}
+
+/* ............................ */
+.textEditor {
+  border-radius: 5px;
+  border: 1px solid grey;
+}
+
+.control-group {
+  padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid grey;
+}
+
+.control-group button {
+  font-size: 16px;
+  margin: 7px 5px;
+  padding: 3px;
+  outline: none;
+  border: none;
+  background: none;
+  color: rgb(70, 70, 70);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover Effect */
+.control-group button:hover {
+  color: black;
+  transform: scale(1.1);
+}
+
+.control-group button:last-child {
+  margin-right: 17px;
+}
+
+.heading3 {
+  font-size: 15px;
+}
+
+button.is-active {
+  background: rgb(197, 197, 197);
+  padding: 3px;
+  border-radius: 2px;
+}
