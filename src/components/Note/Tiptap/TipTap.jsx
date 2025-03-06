@@ -11,6 +11,11 @@ import ListItem from '@tiptap/extension-list-item'
 import HardBreak from '@tiptap/extension-hard-break'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
+import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import TextAlign from '@tiptap/extension-text-align'
 import { RiCodeBlock } from 'react-icons/ri'
 import {
   FaBold,
@@ -25,6 +30,7 @@ import {
   FaCode,
   FaUnderline,
 } from 'react-icons/fa'
+import { FaAlignLeft, FaAlignCenter, FaAlignRight } from 'react-icons/fa6'
 
 const MenuBar = ({ editor }) => {
   if (!editor) return null
@@ -98,16 +104,34 @@ const MenuBar = ({ editor }) => {
         >
           <FaQuoteLeft />
         </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
+        >
+          <FaAlignLeft />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
+        >
+          <FaAlignCenter />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+          className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
+        >
+          <FaAlignRight />
+        </button>
       </div>
       <div className="flex flex-row gap-2">
         <button
-          onClick={() => handleClick('undo')}
+          onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().chain().focus().undo().run()}
         >
           <FaUndo />
         </button>
         <button
-          onClick={() => handleClick('redo')}
+          onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().chain().focus().redo().run()}
         >
           <FaRedo />
@@ -163,6 +187,13 @@ const extensions = [
   TextStyle.configure({ types: [ListItem.name] }),
   Placeholder.configure({ placeholder: 'Write something...' }),
   SplitTextExtension,
+  Document,
+  Paragraph,
+  Text,
+  Heading,
+  TextAlign.configure({
+    types: ['heading', 'paragraph'],
+  }),
 ]
 
 const TipTap = ({ activeNote, onEditField }) => {
