@@ -1,17 +1,16 @@
 import './styles.css'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
+import { Extension } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
-import Underline from '@tiptap/extension-underline'
-import BulletList from '@tiptap/extension-bullet-list'
-import OrderedList from '@tiptap/extension-ordered-list'
+import { Plugin } from 'prosemirror-state'
 import Color from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import ListItem from '@tiptap/extension-list-item'
 import HardBreak from '@tiptap/extension-hard-break'
-import Gapcursor from '@tiptap/extension-gapcursor'
 import Placeholder from '@tiptap/extension-placeholder'
+import Underline from '@tiptap/extension-underline'
 import { RiCodeBlock } from 'react-icons/ri'
 import {
   FaBold,
@@ -117,20 +116,53 @@ const MenuBar = ({ editor }) => {
     </div>
   )
 }
+const SplitTextExtension = Extension.create({
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        props: {
+          handleKeyDown(view, event) {
+            const { state, dispatch } = view
+            const { selection, schema, tr } = state
+            const $pos = selection.$from
+
+            // Ensure Space key works normally
+            if (event.key === ' ') {
+              return false // Let ProseMirror handle it
+            }
+
+            // Handle Enter: Create a new paragraph
+            if (event.key === 'Enter' && !event.shiftKey) {
+              event.preventDefault()
+              const transaction = tr.split($pos.pos, 1, [{ type: schema.nodes.paragraph }])
+              dispatch(transaction)
+              return true
+            }
+
+            // Handle Shift+Enter: Insert a HardBreak (line break)
+            if (event.key === 'Enter' && event.shiftKey) {
+              event.preventDefault()
+              const hardBreak = schema.nodes.hard_break.create()
+              dispatch(tr.insert(selection.to, hardBreak))
+              return true
+            }
+
+            return false
+          },
+        },
+      }),
+    ]
+  },
+})
 
 const extensions = [
-  StarterKit.configure({
-    hardBreak: false,
-  }),
+  StarterKit.configure({ hardBreak: false }),
   Underline,
-  BulletList,
-  OrderedList,
-  ListItem,
-  Gapcursor,
-  HardBreak.extend({ keepMarks: true, keepAttributes: true }),
+  HardBreak.extend({ keepMarks: false, keepAttributes: true }),
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({ types: [ListItem.name] }),
   Placeholder.configure({ placeholder: 'Write something...' }),
+  SplitTextExtension,
 ]
 
 const TipTap = ({ activeNote, onEditField }) => {
@@ -139,7 +171,6 @@ const TipTap = ({ activeNote, onEditField }) => {
     content: activeNote?.body || '',
     onUpdate: ({ editor }) => {
       let html = editor.getHTML()
-      html = html.replace(/ /g, '\u00a0')
       onEditField('body', html)
     },
   })

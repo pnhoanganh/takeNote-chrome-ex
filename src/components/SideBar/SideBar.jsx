@@ -5,6 +5,7 @@ import { AiOutlineExpandAlt } from 'react-icons/ai'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { GoArchive } from 'react-icons/go'
 import { RiDeleteBin5Line } from 'react-icons/ri'
+import parser from 'html-react-parser'
 import Modal from '../Modal/Modal'
 import logo from '../../assets/img/32.png'
 
@@ -89,7 +90,7 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
               notes.map((note) => (
                 <div
                   key={note.id}
-                  className={`mt-3 p-2 rounded flex justify-between items-center cursor-pointer max-h-[150px] ${
+                  className={`mt-3 p-2 rounded flex justify-between items-center cursor-pointer  ${
                     note.id === activeNote ? 'bg-light-secondary-20' : 'hover:bg-gray-100'
                   }`}
                   onClick={(e) => handleSetActiveNote(note.id)} // Set active note and close modal
@@ -102,11 +103,13 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
                           : note.title || 'Untitled note'}
                       </strong>
                     </div>
-                    <p>
-                      {note.body && note.body.length > 40
-                        ? note.body.substr(0, 40) + '...'
-                        : note.body || ''}
-                    </p>
+                    <div>
+                      {parser(
+                        note.body && note.body.length > 40
+                          ? note.body.substr(0, 40) + '...'
+                          : note.body || '',
+                      )}
+                    </div>
                     <small className="text-light-primary-50">
                       Last modified{' '}
                       {isNaN(new Date(note.lastModified).getTime())

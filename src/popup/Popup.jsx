@@ -11,7 +11,6 @@ export const Popup = () => {
     chrome.storage.local.get('notes', (data) => {
       if (data.notes) {
         setNotes(data.notes)
-        console.log(data.notes)
       }
     })
   }, [])
