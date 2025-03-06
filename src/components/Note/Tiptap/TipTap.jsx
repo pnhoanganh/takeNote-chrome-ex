@@ -128,7 +128,7 @@ const SplitTextExtension = Extension.create({
 
             // Ensure Space key works normally
             if (event.key === ' ') {
-              return false // Let ProseMirror handle it
+              return false
             }
 
             // Handle Enter: Create a new paragraph
