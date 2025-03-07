@@ -1,5 +1,5 @@
 import './styles.css'
-
+import FlyoutMenus from '../../Menu/FlyoutMenus'
 import { useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { Extension } from '@tiptap/core'
@@ -29,99 +29,117 @@ import {
   FaUndo,
   FaCode,
   FaUnderline,
+  FaList,
 } from 'react-icons/fa'
-import { FaAlignLeft, FaAlignCenter, FaAlignRight } from 'react-icons/fa6'
+import { FaAlignLeft, FaAlignCenter, FaAlignRight, FaAlignJustify } from 'react-icons/fa6'
 
+const listMenu = {
+  titleMenu: FaList,
+  list: [
+    {
+      icon: FaListUl,
+      name: 'Bullet List',
+      action: 'toggleBulletList',
+    },
+    {
+      icon: FaListOl,
+      name: 'Ordered List',
+      action: 'toggleOrderedList',
+    },
+  ],
+}
+
+const alignMenu = {
+  titleMenu: FaAlignCenter,
+  list: [
+    {
+      icon: FaAlignLeft,
+      name: 'Left Align',
+      action: 'left',
+    },
+    {
+      icon: FaAlignCenter,
+      name: 'Center Align',
+      action: 'center',
+    },
+    {
+      icon: FaAlignRight,
+      name: 'Right Align',
+      action: 'right',
+    },
+    {
+      icon: FaAlignJustify,
+      name: 'Justify Align',
+      action: 'justify',
+    },
+  ],
+}
 const MenuBar = ({ editor }) => {
   if (!editor) return null
 
-  const handleClick = (command, options = {}) => {
-    if (editor.can().chain().focus()[command](options).run()) {
-      editor.chain().focus()[command](options).run()
-    }
-  }
-
   return (
     <div className="control-group">
-      <div>
+      <div className=" flex">
+        {/* FaBold */}
         <button
-          onClick={() => handleClick('toggleBold')}
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          disabled={!editor.can().chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}
         >
           <FaBold />
         </button>
+        {/* FaItalic */}
         <button
-          onClick={() => handleClick('toggleItalic')}
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          disabled={!editor.can().chain().focus().toggleItalic().run()}
           className={editor.isActive('italic') ? 'is-active' : ''}
         >
           <FaItalic />
         </button>
+        {/* FaUnderline */}
         <button
-          onClick={() => handleClick('toggleUnderline')}
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
           className={editor.isActive('underline') ? 'is-active' : ''}
         >
           <FaUnderline />
         </button>
+        {/* FaStrikethrough */}
         <button
-          onClick={() => handleClick('toggleStrike')}
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          disabled={!editor.can().chain().focus().toggleStrike().run()}
           className={editor.isActive('strike') ? 'is-active' : ''}
         >
           <FaStrikethrough />
         </button>
+        {/* FaCode */}
         <button
-          onClick={() => handleClick('toggleCode')}
+          onClick={() => editor.chain().focus().toggleCode().run()}
+          disabled={!editor.can().chain().focus().toggleCode().run()}
           className={editor.isActive('code') ? 'is-active' : ''}
         >
           <FaCode />
         </button>
+        {/* FaHeading */}
         <button
-          onClick={() => handleClick('toggleHeading', { level: 1 })}
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
         >
           <FaHeading />
         </button>
         <button
-          onClick={() => handleClick('toggleBulletList')}
-          className={editor.isActive('bulletList') ? 'is-active' : ''}
-        >
-          <FaListUl />
-        </button>
-        <button
-          onClick={() => handleClick('toggleOrderedList')}
-          className={editor.isActive('orderedList') ? 'is-active' : ''}
-        >
-          <FaListOl />
-        </button>
-        <button
-          onClick={() => handleClick('toggleCodeBlock')}
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           className={editor.isActive('codeBlock') ? 'is-active' : ''}
         >
           <RiCodeBlock />
         </button>
         <button
-          onClick={() => handleClick('toggleBlockquote')}
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={editor.isActive('blockquote') ? 'is-active' : ''}
         >
           <FaQuoteLeft />
         </button>
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('left').run()}
-          className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
-        >
-          <FaAlignLeft />
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('center').run()}
-          className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
-        >
-          <FaAlignCenter />
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('right').run()}
-          className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
-        >
-          <FaAlignRight />
-        </button>
+        <FlyoutMenus menuData={listMenu} editor={editor} className="buttonMenu" />
+        <FlyoutMenus menuData={alignMenu} editor={editor} />
       </div>
       <div className="flex flex-row gap-2">
         <button
