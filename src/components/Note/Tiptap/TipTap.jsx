@@ -1,7 +1,7 @@
 import './styles.css'
 import FlyoutMenus from '../../Menu/FlyoutMenus'
 import { useEffect } from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
 import { Extension } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import { Plugin } from 'prosemirror-state'
@@ -80,7 +80,6 @@ const MenuBar = ({ editor }) => {
   return (
     <div className="control-group">
       <div className=" flex">
-        {/* FaBold */}
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -88,7 +87,7 @@ const MenuBar = ({ editor }) => {
         >
           <FaBold />
         </button>
-        {/* FaItalic */}
+
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
           disabled={!editor.can().chain().focus().toggleItalic().run()}
@@ -96,14 +95,14 @@ const MenuBar = ({ editor }) => {
         >
           <FaItalic />
         </button>
-        {/* FaUnderline */}
+
         <button
           onClick={() => editor.chain().focus().toggleUnderline().run()}
           className={editor.isActive('underline') ? 'is-active' : ''}
         >
           <FaUnderline />
         </button>
-        {/* FaStrikethrough */}
+
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editor.can().chain().focus().toggleStrike().run()}
@@ -233,6 +232,43 @@ const TipTap = ({ activeNote, onEditField }) => {
   return (
     <div className="textEditor">
       <MenuBar editor={editor} />
+      {editor && (
+        <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+          <div className="bubble-menu bg-white border rounded-md">
+            <button
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              className={editor.isActive('bold') ? 'is-active' : ''}
+            >
+              <FaBold />
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+              className={editor.isActive('italic') ? 'is-active' : ''}
+            >
+              <FaItalic />
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              className={editor.isActive('underline') ? 'is-active' : ''}
+            >
+              <FaUnderline />
+            </button>
+
+            <button
+              onClick={() => editor.chain().focus().toggleStrike().run()}
+              className={editor.isActive('strike') ? 'is-active' : ''}
+            >
+              <FaStrikethrough />
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+              className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+            >
+              <FaHeading />
+            </button>
+          </div>
+        </BubbleMenu>
+      )}
       <EditorContent editor={editor} />
     </div>
   )

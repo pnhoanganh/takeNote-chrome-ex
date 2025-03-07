@@ -128,7 +128,8 @@
 }
 
 .control-group button,
-.buttonMenu {
+.buttonMenu,
+.bubble-menu button {
   font-size: 16px;
   margin: 7px 5px;
   padding: 3px;
@@ -141,7 +142,8 @@
 }
 
 /* Hover Effect */
-.control-group button:hover {
+.control-group button:hover,
+.bubble-menu button:hover {
   color: black;
   transform: scale(1.1);
 }
