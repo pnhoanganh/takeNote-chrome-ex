@@ -16,6 +16,7 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
+import Highlight from '@tiptap/extension-highlight'
 import { RiCodeBlock } from 'react-icons/ri'
 import {
   FaBold,
@@ -31,7 +32,14 @@ import {
   FaUnderline,
   FaList,
 } from 'react-icons/fa'
-import { FaAlignLeft, FaAlignCenter, FaAlignRight, FaAlignJustify } from 'react-icons/fa6'
+import {
+  FaAlignLeft,
+  FaAlignCenter,
+  FaAlignRight,
+  FaAlignJustify,
+  FaHighlighter,
+} from 'react-icons/fa6'
+import { PiHighlighterFill } from 'react-icons/pi'
 
 const listMenu = {
   titleMenu: FaList,
@@ -74,6 +82,7 @@ const alignMenu = {
     },
   ],
 }
+
 const MenuBar = ({ editor }) => {
   if (!editor) return null
 
@@ -137,7 +146,13 @@ const MenuBar = ({ editor }) => {
         >
           <FaQuoteLeft />
         </button>
-        <FlyoutMenus menuData={listMenu} editor={editor} className="buttonMenu" />
+        <button
+          onClick={() => editor.chain().focus().toggleHighlight().run()}
+          className={editor.isActive('highlight') ? 'is-active' : ''}
+        >
+          <PiHighlighterFill />
+        </button>
+        <FlyoutMenus menuData={listMenu} editor={editor} />
         <FlyoutMenus menuData={alignMenu} editor={editor} />
       </div>
       <div className="flex flex-row gap-2">
@@ -211,6 +226,7 @@ const extensions = [
   TextAlign.configure({
     types: ['heading', 'paragraph'],
   }),
+  Highlight.configure({ multicolor: false }),
 ]
 
 const TipTap = ({ activeNote, onEditField }) => {
@@ -253,18 +269,18 @@ const TipTap = ({ activeNote, onEditField }) => {
             >
               <FaUnderline />
             </button>
-
             <button
-              onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={editor.isActive('strike') ? 'is-active' : ''}
+              onClick={() => editor.chain().focus().toggleCode().run()}
+              disabled={!editor.can().chain().focus().toggleCode().run()}
+              className={editor.isActive('code') ? 'is-active' : ''}
             >
-              <FaStrikethrough />
+              <FaCode />
             </button>
             <button
-              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-              className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+              onClick={() => editor.chain().focus().toggleHighlight().run()}
+              className={editor.isActive('highlight') ? 'is-active' : ''}
             >
-              <FaHeading />
+              <PiHighlighterFill />
             </button>
           </div>
         </BubbleMenu>
