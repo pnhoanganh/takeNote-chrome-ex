@@ -6,28 +6,32 @@ import { IoSettingsOutline } from 'react-icons/io5'
 import { GoArchive } from 'react-icons/go'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { CiExport, CiImport } from 'react-icons/ci'
+import { MdOutlineImportExport } from 'react-icons/md'
 import parser from 'html-react-parser'
 import Modal from '../Modal/Modal'
 import logo from '../../assets/img/32.png'
+import Export from './ImportExport/Export'
+import Import from './ImportExport/Import'
 
 function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActiveNote }) {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false)
+  const [isImportExportOpen, setIsImportExportOpen] = useState(false)
+  const [selectionTab, setSelectionTab] = useState('import')
 
   const handleExpandWindow = () => {
     window.open('/popup.html', '_blank')
   }
 
   const handleOptionPage = () => {
-    // window.open('/option.html', '_blank')
+    window.open('/option.html', '_blank')
   }
 
-  const handleImportData = () => {
-    // window.open('/option.html', '_blank')
+  const handleOpenImport = () => {
+    setIsImportExportOpen(true)
   }
 
-  const handleExportData = () => {
-    chrome.runtime.sendMessage({ type: 'DOWNLOAD_JSON_FILE' })
-    console.log('download data')
+  const handleCloseImport = () => {
+    setIsImportExportOpen(false)
   }
 
   const handleOpenNoteArchive = () => {
@@ -39,8 +43,8 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
   }
 
   const handleSetActiveNote = (noteId) => {
-    setActiveNote(noteId) // Set active note
-    handleCloseNoteArchive() // Close the modal automatically after selecting the note
+    setActiveNote(noteId)
+    handleCloseNoteArchive()
   }
 
   const getTimeAgo = (dateString) => {
@@ -61,43 +65,40 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
     <>
       <nav className="items-center py-1 pt-3 min-w-[2rem] fixed top-0 right-0 h-screen w-9 sm:w-10 sm:min-w-[2.5rem] lg:w-14 m-0 flex flex-col gap-1 text-primary shadow-lg overflow-visible border-l border-r rtl:border-l rtl:border-r-0">
         <img src={logo} alt="logo" className="w-5 h-5 mb-1" />
+        {/* ADD NOTE */}
         <SideBarIcon
           icon={<MdOutlineCreateNewFolder size="18" />}
           text="Add note"
           onClickEvent={handleAddNote}
           className="left-[-95px]"
         />
+        {/* OPEN ARCHIVE NOTE */}
         <SideBarIcon
           icon={<AiTwotoneFolderOpen size="18" />}
           text="Open your note archive"
           onClickEvent={handleOpenNoteArchive}
           className="left-[-175px]"
         />
+        {/* EXPAND WINDOW */}
         <SideBarIcon
           onClickEvent={handleExpandWindow}
           icon={<AiOutlineExpandAlt size="18" />}
           text="Expand the window"
           className="left-[-155px]"
         />
-        {/* <SideBarIcon
+        {/* OPEN OPTION WINDOW */}
+        <SideBarIcon
           onClickEvent={handleOptionPage}
           icon={<IoSettingsOutline size="18" />}
           text="Setting"
           className="left-[-85px]"
-        /> */}
-
-        <SideBarIcon
-          onClickEvent={handleExportData}
-          icon={<CiExport size="18" />}
-          text="Export data"
-          className="left-[-110px]"
         />
-
+        {/* OPEN IMPORT EXPORT MODAL */}
         <SideBarIcon
-          onClickEvent={handleImportData}
-          icon={<CiImport size="18" />}
-          text="Export data"
-          className="left-[-110px]"
+          onClickEvent={handleOpenImport}
+          icon={<MdOutlineImportExport size="18" />}
+          text="Import and Export data"
+          className="left-[-175px]"
         />
       </nav>
 
@@ -159,6 +160,39 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
             ) : (
               <p className="text-xs text-center">No notes available</p>
             )}
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal for Export and Import */}
+      <Modal open={isImportExportOpen} onClose={handleCloseImport}>
+        <div className="mt-2 max-[450px]:min-w-[250px] max-[450px]:min-h-[300px] max-[560px]:min-w-[400px] max-[560px]:min-h-[350px] min-[565px]:min-w-[500px] min-[565px]:min-h-[500px] overflow-hidden">
+          <h3 className="text-xl text-center text-secondary font-semibold mb-4 flex justify-center items-center gap-2">
+            <MdOutlineImportExport size="30px" />
+            {selectionTab === 'import' ? 'Import Your Notes' : 'Export Your Notes'}
+          </h3>
+          <hr />
+          <div className="flex justify-center overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+            {/* Tabs */}
+            <div className="flex justify-center mt-4 gap-1">
+              <button
+                className={`flex flex-row justify-center items-center gap-2 rounded-full px-[30px] py-[5px] text-sm font-semibold ${selectionTab === 'import' ? ' bg-light-secondary-20 text-gray-900' : 'bg-gray-200 text-gray-600'}`}
+                onClick={() => setSelectionTab('import')}
+              >
+                <CiImport size="14" />
+                Import
+              </button>
+              <button
+                className={`flex flex-row justify-center items-center gap-2 rounded-full px-[30px] py-[5px] text-sm font-semibold ${selectionTab === 'export' ? 'bg-light-secondary-20 text-gray-900' : 'bg-gray-200 text-gray-600'}`}
+                onClick={() => setSelectionTab('export')}
+              >
+                <CiExport size="14" />
+                Export
+              </button>
+            </div>
+          </div>
+          <div className="p-4 mt-6 border border-gray-300 rounded-md h-[150px] min-[560px]:max-h-[220px]">
+            {selectionTab === 'import' ? <Import /> : <Export />}
           </div>
         </div>
       </Modal>

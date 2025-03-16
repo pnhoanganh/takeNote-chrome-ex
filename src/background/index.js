@@ -96,6 +96,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       fileReader.readAsDataURL(blob)
       return true
     })
+  } else if (message.type === 'IMPORT_JSON_FILE') {
+    const newNotes = message.payload
+
+    // Kiểm tra dữ liệu hợp lệ
+    if (!Array.isArray(newNotes)) {
+      sendResponse({ status: 'error', message: 'Invalid data format' })
+      return false
+    }
+
+    // Lọc ra những ghi chú có id chưa tồn tại
+    const existingIds = new Set(notes.map((note) => note.id))
+    const uniqueNotes = newNotes.filter((note) => !existingIds.has(note.id))
+
+    if (uniqueNotes.length === 0) {
+      sendResponse({ status: 'error', message: 'No new notes to import' })
+      return false
+    }
+
+    // Cập nhật danh sách ghi chú
+    notes = [...notes, ...uniqueNotes]
+    chrome.storage.local.set({ notes }, () => {
+      sendResponse({ status: 'success', message: 'Notes imported', notes })
+    })
+
+    return true
   }
 
   return isAsync
