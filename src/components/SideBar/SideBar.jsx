@@ -5,6 +5,7 @@ import { AiOutlineExpandAlt } from 'react-icons/ai'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { GoArchive } from 'react-icons/go'
 import { RiDeleteBin5Line } from 'react-icons/ri'
+import { CiExport, CiImport } from 'react-icons/ci'
 import parser from 'html-react-parser'
 import Modal from '../Modal/Modal'
 import logo from '../../assets/img/32.png'
@@ -17,7 +18,16 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
   }
 
   const handleOptionPage = () => {
-    window.open('/option.html', '_blank')
+    // window.open('/option.html', '_blank')
+  }
+
+  const handleImportData = () => {
+    // window.open('/option.html', '_blank')
+  }
+
+  const handleExportData = () => {
+    chrome.runtime.sendMessage({ type: 'DOWNLOAD_JSON_FILE' })
+    console.log('download data')
   }
 
   const handleOpenNoteArchive = () => {
@@ -69,11 +79,25 @@ function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActive
           text="Expand the window"
           className="left-[-155px]"
         />
-        <SideBarIcon
+        {/* <SideBarIcon
           onClickEvent={handleOptionPage}
           icon={<IoSettingsOutline size="18" />}
           text="Setting"
           className="left-[-85px]"
+        /> */}
+
+        <SideBarIcon
+          onClickEvent={handleExportData}
+          icon={<CiExport size="18" />}
+          text="Export data"
+          className="left-[-110px]"
+        />
+
+        <SideBarIcon
+          onClickEvent={handleImportData}
+          icon={<CiImport size="18" />}
+          text="Export data"
+          className="left-[-110px]"
         />
       </nav>
 

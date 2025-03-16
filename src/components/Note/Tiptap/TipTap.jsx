@@ -3,8 +3,8 @@ import FlyoutMenus from '../../Menu/FlyoutMenus'
 import { useEffect } from 'react'
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
 import { Extension } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
 import { Plugin } from 'prosemirror-state'
+import StarterKit from '@tiptap/starter-kit'
 import Color from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import ListItem from '@tiptap/extension-list-item'
@@ -17,6 +17,8 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
 import Highlight from '@tiptap/extension-highlight'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
 import { RiCodeBlock } from 'react-icons/ri'
 import {
   FaBold,
@@ -32,14 +34,9 @@ import {
   FaUnderline,
   FaList,
 } from 'react-icons/fa'
-import {
-  FaAlignLeft,
-  FaAlignCenter,
-  FaAlignRight,
-  FaAlignJustify,
-  FaHighlighter,
-} from 'react-icons/fa6'
+import { FaAlignLeft, FaAlignCenter, FaAlignRight, FaAlignJustify } from 'react-icons/fa6'
 import { PiHighlighterFill } from 'react-icons/pi'
+import { GoTasklist } from 'react-icons/go'
 
 const listMenu = {
   titleMenu: FaList,
@@ -53,6 +50,11 @@ const listMenu = {
       icon: FaListOl,
       name: 'Ordered List',
       action: 'toggleOrderedList',
+    },
+    {
+      icon: GoTasklist,
+      name: 'Task List',
+      action: 'toggleTaskList',
     },
   ],
 }
@@ -227,6 +229,10 @@ const extensions = [
     types: ['heading', 'paragraph'],
   }),
   Highlight.configure({ multicolor: false }),
+  TaskList,
+  TaskItem.configure({
+    nested: true,
+  }),
 ]
 
 const TipTap = ({ activeNote, onEditField }) => {

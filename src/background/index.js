@@ -7,6 +7,21 @@ chrome.storage.local.get(['notes', 'activeNote'], (data) => {
   activeNote = data.activeNote || null
 })
 
+// const convertArrayOfObjectsToCSV = (args) => {
+//   const data = args.data
+//   if (!data || !data.length) {
+//     return
+//   }
+
+//   const columnDelimiter = args.columnDelimiter || ','
+//   const lineDelimiter = args.lineDelimiter || '\n'
+
+//   const keys = Object.keys(data[0])
+
+//   let result = '';
+//   result +=
+// }
+
 // Listen for messages from popup/sidepanel
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   let isAsync = false
@@ -50,6 +65,36 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     isAsync = true
     chrome.storage.local.set({ notes, activeNote }, () => {
       sendResponse({ status: 'success', message: 'Note updated', notes, activeNote })
+    })
+  } else if (message.type === 'DOWNLOAD_JSON_FILE') {
+    chrome.storage.local.get('notes', (data) => {
+      const notes = data.notes || []
+      const json = JSON.stringify(notes, null, 2)
+
+      const blob = new Blob([json], { type: 'application/json' })
+      const fileReader = new FileReader()
+
+      fileReader.onloadend = function () {
+        const url = fileReader.result // Dữ liệu dạng data URL
+
+        chrome.downloads.download(
+          {
+            url: url,
+            filename: 'notes.json',
+            saveAs: true,
+          },
+          (downloadId) => {
+            if (chrome.runtime.lastError) {
+              console.error('Download error:', chrome.runtime.lastError)
+            } else {
+              sendResponse({ status: 'success', downloadId })
+            }
+          },
+        )
+      }
+
+      fileReader.readAsDataURL(blob)
+      return true
     })
   }
 
