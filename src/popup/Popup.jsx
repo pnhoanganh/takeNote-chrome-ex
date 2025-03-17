@@ -109,9 +109,9 @@ export const Popup = () => {
       <div className="flex-shrink-0 w-[4%] min-w-[34px] max-w-[60px]">
         <SideBar
           notes={notes}
+          activeNote={activeNote}
           handleAddNote={handleAddNote}
           handleDeleteNote={handleDeleteNote}
-          activeNote={activeNote}
           setActiveNote={handleSetActiveNote}
         />
       </div>
