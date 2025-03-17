@@ -18,6 +18,17 @@ export const SidePanel = () => {
     })
   }, [])
 
+  useEffect(() => {
+    const handleStorageChange = (changes, area) => {
+      if (area === 'local' && changes.notes) {
+        setNotes(changes.notes.newValue || [])
+      }
+    }
+
+    chrome.storage.onChanged.addListener(handleStorageChange)
+    return () => chrome.storage.onChanged.removeListener(handleStorageChange)
+  }, [])
+
   // ADD NOTE
   const handleAddNote = () => {
     const newNote = {
@@ -29,9 +40,8 @@ export const SidePanel = () => {
 
     chrome.runtime.sendMessage({ type: 'ADD_NOTE', payload: newNote }, (response) => {
       if (response?.status === 'success') {
-        // Update state immediately without waiting for side panel to be opened
-        setNotes(response.notes) // This updates the notes list
-        setActiveNote(newNote.id) // Optionally set the new note as active
+        setNotes(response.notes)
+        setActiveNote(newNote.id)
       } else {
         console.error('Failed to add note')
       }
@@ -41,7 +51,7 @@ export const SidePanel = () => {
   const handleDeleteNote = (idToDelete) => {
     chrome.runtime.sendMessage({ type: 'DELETE_NOTE', payload: idToDelete }, (response) => {
       if (response?.status === 'success') {
-        setNotes(response.notes) // Update local state after deleting the note
+        setNotes(response.notes)
       } else {
         console.error('Failed to delete note')
       }
@@ -70,7 +80,7 @@ export const SidePanel = () => {
   const onUpdateNote = (updatedNote) => {
     chrome.runtime.sendMessage({ type: 'UPDATE_NOTE', payload: updatedNote }, (response) => {
       if (response?.status === 'success') {
-        setNotes(response.notes) // Update notes state after update
+        setNotes(response.notes)
       } else {
         console.error('Failed to update note')
       }

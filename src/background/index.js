@@ -7,21 +7,6 @@ chrome.storage.local.get(['notes', 'activeNote'], (data) => {
   activeNote = data.activeNote || null
 })
 
-// const convertArrayOfObjectsToCSV = (args) => {
-//   const data = args.data
-//   if (!data || !data.length) {
-//     return
-//   }
-
-//   const columnDelimiter = args.columnDelimiter || ','
-//   const lineDelimiter = args.lineDelimiter || '\n'
-
-//   const keys = Object.keys(data[0])
-
-//   let result = '';
-//   result +=
-// }
-
 // Listen for messages from popup/sidepanel
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   let isAsync = false

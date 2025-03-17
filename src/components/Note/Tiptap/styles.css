@@ -20,7 +20,11 @@
   display: block;
   margin-bottom: 10px;
 }
-
+@media (max-width: 350px) {
+  .ProseMirror {
+    max-height: 550px;
+  }
+}
 @media (max-width: 550px) {
   .ProseMirror {
     max-height: 250px;

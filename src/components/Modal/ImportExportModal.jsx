@@ -1,7 +1,7 @@
 import { React, useState } from 'react'
-import Modal from '../../Modal/Modal'
-import Export from './Export'
-import Import from './Import'
+import Modal from './Modal'
+import Export from '../ImportExport/Export'
+import Import from '../ImportExport/Import'
 import { CiExport, CiImport } from 'react-icons/ci'
 import { MdOutlineImportExport } from 'react-icons/md'
 

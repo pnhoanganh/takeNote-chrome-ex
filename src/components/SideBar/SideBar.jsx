@@ -5,8 +5,8 @@ import { AiOutlineExpandAlt } from 'react-icons/ai'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { MdOutlineImportExport } from 'react-icons/md'
 import logo from '../../assets/img/32.png'
-import NoteArchiveModal from './NoteArchiveModal'
-import ImportExportModal from './ImportExport/ImportExportModal'
+import NoteArchiveModal from '../Modal/NoteArchiveModal'
+import ImportExportModal from '../Modal/ImportExportModal'
 
 function SideBar({ notes, handleAddNote, handleDeleteNote, activeNote, setActiveNote }) {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false)
