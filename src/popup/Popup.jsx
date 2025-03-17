@@ -15,6 +15,17 @@ export const Popup = () => {
     })
   }, [])
 
+  useEffect(() => {
+    const handleStorageChange = (changes, area) => {
+      if (area === 'local' && changes.notes) {
+        setNotes(changes.notes.newValue || [])
+      }
+    }
+
+    chrome.storage.onChanged.addListener(handleStorageChange)
+    return () => chrome.storage.onChanged.removeListener(handleStorageChange)
+  }, [])
+
   // Sync notes to chrome.storage.local when the notes state changes
   useEffect(() => {
     if (notes.length > 0) {

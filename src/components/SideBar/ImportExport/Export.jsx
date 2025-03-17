@@ -8,10 +8,10 @@ export default function Export() {
   }
 
   return (
-    <div className="flex justify-center flex-col gap-4">
+    <div className="flex justify-center items-center flex-col gap-4">
       <h2 className="text-center text-[18px] font-bold">Download your notes</h2>
       <button
-        className={`flex flex-row justify-center items-center gap-1 rounded-full px-[30px] py-[5px] text-sm font-medium hover:text-secondary`}
+        className={`flex flex-row justify-center items-center gap-1 max-w-[220px] px-[30px] py-[5px] text-sm font-medium bg-secondary border border-secondary text-white p-2 rounded-md hover:bg-white hover:text-secondary transition`}
         onClick={() => handleExportData()}
       >
         <MdSimCardDownload size="14" />
